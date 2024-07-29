@@ -9,10 +9,11 @@ from datetime import datetime
 from pydantic import BaseModel
 from bson import ObjectId, encode
 import urllib.parse
+import certifi
 
 class Database:
     def __init__(self, connection_string, db_name):
-        self.client = MongoClient(connection_string)
+        self.client = MongoClient(connection_string, tlsCAFile=certifi.where())
         self.db = self.client.get_database(db_name)
 
 
@@ -42,12 +43,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-mongoDbString = "mongodb+srv://<username>:<password>@iiiteverything.br6vt5b.mongodb.net/"
-
-# Escape the username and password using urllib.parse.quote_plus
-escaped_username = urllib.parse.quote_plus("swoyam")
-escaped_password = urllib.parse.quote_plus("swoyam")
-mongoDbString = mongoDbString.replace("<username>", escaped_username).replace("<password>", escaped_password)
+mongoDbString = "mongodb+srv://b121065:sirkak-fejryc-fyBja1@iiiteverything.3k5ayjl.mongodb.net/?retryWrites=true&w=majority"
 
 database = Database(mongoDbString, "iiiteverything")
 
